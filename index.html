@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Download SimplyBin for iOS or Android">
+  <title>Get SimplyBin</title>
+  <style>
+    :root {
+      --ios: #0070c9;
+      --android: #01875f;
+      --text: #222;
+      --muted: #666;
+      --bg: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      margin-top: 5vh;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin: 0 0 0.25rem;
+    }
+
+    .tagline {
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+    }
+
+    #message {
+      font-size: 1rem;
+      min-height: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .buttons {
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: block;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      transition: transform 0.1s ease;
+    }
+
+    .btn:hover,
+    .btn:active {
+      transform: translateY(-2px);
+    }
+
+    .btn.appstore {
+      background: var(--ios);
+    }
+
+    .btn.playstore {
+      background: var(--android);
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* Show buttons immediately if JavaScript is disabled */
+    noscript .buttons {
+      display: flex !important;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Get SimplyBin</h1>
+    <p class="tagline">Smart waste management for your home.</p>
+
+    <p id="message">Detecting your device...</p>
+
+    <div id="buttons" class="buttons">
+      <a id="appleBtn" class="btn appstore" href="#" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+      <a id="googleBtn" class="btn playstore" href="#" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <noscript>
+      <p>JavaScript is disabled. Please choose a store above.</p>
+    </noscript>
+  </footer>
+
+  <script>
+    // ============================================================
+    // CONFIGURATION
+    // Update these two URLs whenever store links change.
+    // ============================================================
+    const APP_STORE_URL = 'https://apps.apple.com/us/app/simplybin/idxxxxxxx';
+    const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.simplybin.myapp&hl=en-US';
+
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    const maxTouch = navigator.maxTouchPoints || 0;
+
+    // iOS detection includes iPhones, iPods, iPads, and iPad Pros running
+    // iPadOS 13+ that report themselves as "Macintosh" with touch support.
+    const isIOS = /iPhone|iPad|iPod/i.test(ua) || (platform === 'MacIntel' && maxTouch > 1);
+    const isAndroid = /Android/i.test(ua);
+
+    const messageEl = document.getElementById('message');
+    const buttonsEl = document.getElementById('buttons');
+    const appleBtn = document.getElementById('appleBtn');
+    const googleBtn = document.getElementById('googleBtn');
+
+    // Keep the fallback buttons pointing to the same configured URLs.
+    appleBtn.href = APP_STORE_URL;
+    googleBtn.href = PLAY_STORE_URL;
+
+    function showFallback(text) {
+      messageEl.textContent = text;
+      buttonsEl.style.display = 'flex';
+    }
+
+    if (isIOS) {
+      messageEl.textContent = 'Opening the App Store...';
+      window.location.href = APP_STORE_URL;
+    } else if (isAndroid) {
+      messageEl.textContent = 'Opening Google Play...';
+      window.location.href = PLAY_STORE_URL;
+    } else {
+      // Desktop or unknown device: show both download options.
+      showFallback('Choose your store to download SimplyBin:');
+    }
+  </script>
+</body>
+</html>
