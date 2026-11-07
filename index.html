@@ -115,6 +115,75 @@
       font-size: 0.8rem;
       color: #888;
     }
+
+    /* ── iOS coming-soon: full-screen screenshot background ── */
+
+    body.ios-bg {
+      padding: 0;
+      /* Fallback colour while the image loads */
+      background-color: #1646a9;
+      background-image: url('app-screenshot.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      align-items: stretch;
+    }
+
+    body.ios-bg .container {
+      max-width: 100%;
+      margin-top: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0;
+    }
+
+    /* Hide the generic header — the screenshot has the app branding */
+    body.ios-bg h1,
+    body.ios-bg .tagline,
+    body.ios-bg #message {
+      display: none;
+    }
+
+    /* Gradient scrim + card at the bottom */
+    body.ios-bg .coming-soon {
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(8, 24, 70, 0.93) 22%
+      );
+      padding: 4rem 2rem 3rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    body.ios-bg .coming-soon h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    body.ios-bg .coming-soon p {
+      color: rgba(255, 255, 255, 0.88);
+      margin: 0 0 0.75rem;
+    }
+
+    body.ios-bg .coming-soon .android-note {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    body.ios-bg .coming-soon .android-note a {
+      color: #6ee7a0;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    body.ios-bg .footer {
+      display: none;
+    }
   </style>
   <noscript>
     <style>
@@ -220,6 +289,7 @@
         // view on this page instead of redirecting.
         messageEl.hidden = true;
         comingSoonEl.hidden = false;
+        document.body.classList.add('ios-bg');
       }
     } else if (isAndroid) {
       messageEl.textContent = 'Opening Google Play...';
