@@ -53,6 +53,25 @@
       margin-bottom: 1rem;
     }
 
+    .coming-soon h2 {
+      font-size: 1.25rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .coming-soon p {
+      margin: 0 0 0.75rem;
+    }
+
+    .coming-soon .android-note {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .coming-soon .android-note a {
+      color: var(--android);
+      font-weight: 600;
+    }
+
     .buttons {
       display: none;
       flex-direction: column;
@@ -78,6 +97,14 @@
       background: var(--ios);
     }
 
+    .btn.disabled,
+    .btn.disabled:hover,
+    .btn.disabled:active {
+      opacity: 0.55;
+      cursor: default;
+      transform: none;
+    }
+
     .btn.playstore {
       background: var(--android);
     }
@@ -88,66 +115,112 @@
       font-size: 0.8rem;
       color: #888;
     }
-
-    /* Show buttons immediately if JavaScript is disabled */
-    noscript .buttons {
-      display: flex !important;
-    }
   </style>
+  <noscript>
+    <style>
+      /* With JavaScript disabled, show the store buttons and hide
+         the detection message (which never gets replaced). */
+      #message { display: none; }
+      .buttons { display: flex; }
+    </style>
+  </noscript>
 </head>
 <body>
   <main class="container">
     <h1>Get SimplyBin</h1>
-    <p class="tagline">Smart waste management for your home.</p>
+    <p class="tagline">Know what's in every box or around your house.</p>
 
-    <p id="message">Detecting your device...</p>
+    <p id="message"></p>
+
+    <div id="comingSoon" class="coming-soon" hidden>
+      <h2>SimplyBin is coming to the App Store</h2>
+      <p><strong>Available November 10, 2026.</strong> Check back soon!</p>
+      <p class="android-note">Using Android? <a id="androidNoteLink" href="#" target="_blank" rel="noopener noreferrer">Get it on Google Play</a></p>
+    </div>
 
     <div id="buttons" class="buttons">
-      <a id="appleBtn" class="btn appstore" href="#" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
-      <a id="googleBtn" class="btn playstore" href="#" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
+      <a id="appleBtn" class="btn appstore disabled" aria-disabled="true">App Store – Coming Nov 10, 2026</a>
+      <a id="googleBtn" class="btn playstore" href="https://play.google.com/store/apps/details?id=com.simplybin.myapp&amp;hl=en-US" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
     </div>
   </main>
 
   <footer class="footer">
     <noscript>
-      <p>JavaScript is disabled. Please choose a store above.</p>
+      <p>JavaScript is disabled. SimplyBin is available now on Google Play; the App Store version launches November 10, 2026.</p>
     </noscript>
   </footer>
 
   <script>
     // ============================================================
     // CONFIGURATION
-    // Update these two URLs whenever store links change.
+    //
+    // SimplyBin launches on the App Store on November 10, 2026.
+    // Until then, iOS visitors see a "coming soon" view instead of
+    // being sent to an App Store listing that doesn't exist yet.
+    //
+    // LAUNCH DAY — 2-step switch (do NOT flip early; Apple's
+    // release can slip):
+    //   1. Paste the real App Store link into APP_STORE_URL.
+    //   2. Set APP_STORE_LIVE to true.
+    //
+    // Once live, the page behaves as before: iOS redirects to the
+    // App Store and the desktop App Store button links to it.
     // ============================================================
-    const APP_STORE_URL = 'https://apps.apple.com/us/app/simplybin/idxxxxxxx';
+    const APP_STORE_LIVE = false;
+    const APP_STORE_URL = ''; // fill in the real App Store link on launch day
     const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.simplybin.myapp&hl=en-US';
 
     const ua = navigator.userAgent || '';
     const platform = navigator.platform || '';
     const maxTouch = navigator.maxTouchPoints || 0;
 
-    // iOS detection includes iPhones, iPods, iPads, and iPad Pros running
-    // iPadOS 13+ that report themselves as "Macintosh" with touch support.
-    const isIOS = /iPhone|iPad|iPod/i.test(ua) || (platform === 'MacIntel' && maxTouch > 1);
+    // iOS detection includes iPhones, iPods, iPads, and iPads running
+    // iPadOS 13+ in desktop mode, which report a "Macintosh" user agent
+    // (and a "MacIntel" platform) but still have touch points.
+    const isMacWithTouch = maxTouch > 1 && (/Macintosh/i.test(ua) || platform === 'MacIntel');
+    const isIOS = /iPhone|iPad|iPod/i.test(ua) || isMacWithTouch;
     const isAndroid = /Android/i.test(ua);
 
+    // Guard against flipping the switch without filling in the URL:
+    // redirecting to an empty URL would just reload the page in a loop.
+    const appStoreReady = APP_STORE_LIVE && APP_STORE_URL !== '';
+
     const messageEl = document.getElementById('message');
+    const comingSoonEl = document.getElementById('comingSoon');
     const buttonsEl = document.getElementById('buttons');
     const appleBtn = document.getElementById('appleBtn');
     const googleBtn = document.getElementById('googleBtn');
 
-    // Keep the fallback buttons pointing to the same configured URLs.
-    appleBtn.href = APP_STORE_URL;
     googleBtn.href = PLAY_STORE_URL;
+    document.getElementById('androidNoteLink').href = PLAY_STORE_URL;
+
+    // Until launch, the App Store button stays a disabled "coming soon"
+    // badge (its markup default, so it works without JavaScript too).
+    // Once live, restore it to a real link.
+    if (appStoreReady) {
+      appleBtn.href = APP_STORE_URL;
+      appleBtn.textContent = 'Download on the App Store';
+      appleBtn.classList.remove('disabled');
+      appleBtn.removeAttribute('aria-disabled');
+    }
 
     function showFallback(text) {
       messageEl.textContent = text;
       buttonsEl.style.display = 'flex';
     }
 
+    messageEl.textContent = 'Detecting your device...';
+
     if (isIOS) {
-      messageEl.textContent = 'Opening the App Store...';
-      window.location.href = APP_STORE_URL;
+      if (appStoreReady) {
+        messageEl.textContent = 'Opening the App Store...';
+        window.location.href = APP_STORE_URL;
+      } else {
+        // App Store launches November 10, 2026: show the coming-soon
+        // view on this page instead of redirecting.
+        messageEl.hidden = true;
+        comingSoonEl.hidden = false;
+      }
     } else if (isAndroid) {
       messageEl.textContent = 'Opening Google Play...';
       window.location.href = PLAY_STORE_URL;
