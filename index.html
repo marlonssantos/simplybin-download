@@ -53,6 +53,18 @@
       margin: 0 0 0.25rem;
     }
 
+    h1.logo {
+      margin: 0 0 1rem;
+      line-height: 0;
+    }
+
+    h1.logo img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      mix-blend-mode: multiply;
+    }
+
     .tagline {
       color: var(--muted);
       margin: 0 0 1.5rem;
@@ -220,7 +232,7 @@
 </head>
 <body>
   <main class="container">
-    <h1>Get SimplyBin</h1>
+    <h1 class="logo"><img src="logo.png" alt="SimplyBin – Know What's In Every Bin" width="538" height="154"></h1>
     <p class="tagline">Know what's in every box or around your house.</p>
 
     <p id="message"></p>
