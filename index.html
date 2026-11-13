@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Download SimplyBin for iOS or Android">
   <title>Get SimplyBin</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimplyBin">
+  <meta property="og:title" content="SimplyBin – Inventory Tracker">
+  <meta property="og:description" content="Know what's in every box or around your house. Download SimplyBin for iOS or Android.">
+  <meta property="og:url" content="https://marlonssantos.github.io/simplybin-download/">
+  <meta property="og:image" content="https://marlonssantos.github.io/simplybin-download/app-screenshot.png">
+  <meta property="og:image:alt" content="SimplyBin app screenshot">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SimplyBin – Inventory Tracker">
+  <meta name="twitter:description" content="Know what's in every box or around your house. Download SimplyBin for iOS or Android.">
+  <meta name="twitter:image" content="https://marlonssantos.github.io/simplybin-download/app-screenshot.png">
   <style>
     :root {
       --ios: #0070c9;
@@ -93,8 +104,21 @@
       transform: translateY(-2px);
     }
 
-    .btn.appstore {
-      background: var(--ios);
+    .badge-link {
+      display: block;
+      text-align: center;
+    }
+
+    .badge-link img {
+      height: 56px;
+      width: auto;
+    }
+
+    /* Google's badge PNG includes built-in clear space, so scale it up
+       and trim the margin to match the App Store badge's visible size. */
+    .badge-link.play-badge img {
+      height: 84px;
+      margin: -14px 0;
     }
 
     .btn.disabled,
@@ -208,8 +232,8 @@
     </div>
 
     <div id="buttons" class="buttons">
-      <a id="appleBtn" class="btn appstore" href="https://apps.apple.com/us/app/simplybin-inventory-tracker/id6825872343" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
-      <a id="googleBtn" class="btn playstore" href="https://play.google.com/store/apps/details?id=com.simplybin.myapp&amp;hl=en-US" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
+      <a id="appleBtn" class="badge-link" href="https://apps.apple.com/us/app/simplybin-inventory-tracker/id6825872343" target="_blank" rel="noopener noreferrer"><img src="appstore-badge.svg" alt="Download on the App Store" height="56"></a>
+      <a id="googleBtn" class="badge-link play-badge" href="https://play.google.com/store/apps/details?id=com.simplybin.myapp&amp;hl=en-US" target="_blank" rel="noopener noreferrer"><img src="googleplay-badge.png" alt="Get it on Google Play" height="84"></a>
     </div>
   </main>
 
@@ -268,9 +292,6 @@
     // Once live, restore it to a real link.
     if (appStoreReady) {
       appleBtn.href = APP_STORE_URL;
-      appleBtn.textContent = 'Download on the App Store';
-      appleBtn.classList.remove('disabled');
-      appleBtn.removeAttribute('aria-disabled');
     }
 
     function showFallback(text) {
