@@ -208,14 +208,14 @@
     </div>
 
     <div id="buttons" class="buttons">
-      <a id="appleBtn" class="btn appstore disabled" aria-disabled="true">App Store – Coming Nov 14, 2026</a>
+      <a id="appleBtn" class="btn appstore" href="https://apps.apple.com/us/app/simplybin-inventory-tracker/id6825872343" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
       <a id="googleBtn" class="btn playstore" href="https://play.google.com/store/apps/details?id=com.simplybin.myapp&amp;hl=en-US" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
     </div>
   </main>
 
   <footer class="footer">
     <noscript>
-      <p>JavaScript is disabled. SimplyBin is available now on Google Play; the App Store version launches November 14, 2026.</p>
+      <p>JavaScript is disabled. SimplyBin is available now on the App Store and Google Play.</p>
     </noscript>
   </footer>
 
@@ -235,8 +235,8 @@
     // Once live, the page behaves as before: iOS redirects to the
     // App Store and the desktop App Store button links to it.
     // ============================================================
-    const APP_STORE_LIVE = false;
-    const APP_STORE_URL = ''; // fill in the real App Store link on launch day
+    const APP_STORE_LIVE = true;
+    const APP_STORE_URL = 'https://apps.apple.com/us/app/simplybin-inventory-tracker/id6825872343';
     const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.simplybin.myapp&hl=en-US';
 
     const ua = navigator.userAgent || '';

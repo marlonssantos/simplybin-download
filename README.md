@@ -66,11 +66,12 @@ Either works; choose the one that best matches your branding.
 All store links live in one place at the top of `index.html`:
 
 ```javascript
-const APP_STORE_URL = 'https://apps.apple.com/us/app/simplybin/idxxxxxxx';
+const APP_STORE_LIVE = true;
+const APP_STORE_URL = 'https://apps.apple.com/us/app/simplybin-inventory-tracker/id6825872343';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.simplybin.myapp&hl=en-US';
 ```
 
-When your Apple App Store link is approved, replace `idxxxxxxx` with the real app ID. Only these two lines need to change.
+SimplyBin is live on the App Store. Setting `APP_STORE_LIVE` to `false` brings back the iOS "coming soon" view. The App Store button in the markup also carries the URL, so update it there too if the link changes.
 
 ---
 
